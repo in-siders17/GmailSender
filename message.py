@@ -1,15 +1,12 @@
 import smtplib
 
-def send_email(message):
-    sender = "boyhich3@gmail.com"
-    password = "tmtzabdqcjmmrpwu"
-
+def send_email(sender, password, receiver, message):
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
 
     try:
         server.login(sender, password)
-        server.sendmail(sender, "shtrikker28@gmail.com", message)
+        server.sendmail(sender, receiver, message)
 
         return "The message was sent succesfuly!"
     except Exception as _ex:
@@ -17,8 +14,11 @@ def send_email(message):
 
 
 def main():
+    sender = "boyhich3@gmail.com"
+    password = "tmtzabdqcjmmrpwu"
+    receiver = "shtrikker28@gmail.com"
     message = input("Type your message: ")
-    print(send_email(message=message))
+    print(send_email(sender, password, receiver, message))
 
 
 if __name__ == "__main__":
