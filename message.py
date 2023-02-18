@@ -1,14 +1,18 @@
 import smtplib
 import argparse
+import config as cfg
 
 
-try:
-    server.login(sender, password)
-    server.sendmail(sender, receiver, message)
+def send_email(sender, password, receiver, message):
+    server = smtplib.SMTP(cfg.smtp_domain, cfg.smtp_port)
+    server.starttls()
 
-    return "True"
-except Exception as _ex:
-    return f"{_ex}\nFalse"
+    try:
+        server.login(sender, password)
+        server.sendmail(sender, receiver, message)
+        return True
+    except:
+        return False
 
 
 def main():
@@ -18,7 +22,8 @@ def main():
     parser.add_argument('-r', dest="receiver", help='Receiver')
     parser.add_argument('-m', dest="message", help='Your message')
     args = parser.parse_args()
-    send_email(args.sender, args.password, args.receiver, args.message)
+    if not send_email(args.sender, args.password, args.receiver, args.message):
+        print("Message was not sent!")
 
 
 if __name__ == "__main__":
